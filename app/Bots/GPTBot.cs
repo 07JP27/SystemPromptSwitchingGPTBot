@@ -94,14 +94,21 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
 
             messages.Add(new GptMessage(){Role = "user", Content = inputText});
 
+            await turnContext.SendActivityAsync(MessageFactory.Text("生成中..."), cancellationToken);
+            
             ChatCompletions response = await generateMessage(messages, currentConfing.Temperature, currentConfing.MaxTokens);
 
             // TODO:APIのレスポンスがエラーの場合の処理を追加する
             var replyText =response.Choices[0].Message.Content;
 
-            messages.Add(new GptMessage(){Role = "assistant", Content = replyText});
+            var newActivity = MessageFactory.Text(replyText, replyText);
+            newActivity.Id = turnContext.Activity.ReplyToId;
 
-            await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+            // メッセージの更新はEmulator(Direct Line)では使えない
+            // https://learn.microsoft.com/ja-jp/azure/bot-service/bot-service-channels-reference?view=azure-bot-service-4.0#activity-support-by-channel
+            await turnContext.UpdateActivityAsync(newActivity, cancellationToken);
+
+            messages.Add(new GptMessage(){Role = "assistant", Content = replyText});
 
             conversationData.Timestamp = turnContext.Activity.Timestamp.ToString();
             conversationData.ChannelId = turnContext.Activity.ChannelId;

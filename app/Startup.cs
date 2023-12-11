@@ -65,7 +65,9 @@ namespace _07JP27.SystemPromptSwitchingGPTBot
             {
                 new Default(),
                 new Korosuke(),
-                new Doraemon()
+                new Doraemon(),
+                new Translate(),
+                new CodeReview(),
             };
             services.AddSingleton(catalog);
 
