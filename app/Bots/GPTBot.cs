@@ -44,11 +44,11 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
             {
                 string command = inputText.Trim().ToLowerInvariant().Substring(1);
 
-                if (command == "reset")
+                if (command == "clear")
                 {
-                    var resetMessage = "会話履歴をリセットしました。";
+                    var resetMessage = "会話履歴をクリアしました。";
                     await turnContext.SendActivityAsync(MessageFactory.Text(resetMessage, resetMessage), cancellationToken);
-                    var currentMode = _systemPrompts.FirstOrDefault(x => x.Id == conversationData.CurrentMode);
+                    var currentMode = _systemPrompts.FirstOrDefault(x => x.Id == conversationData.CurrentConfigId);
                     conversationData.Messages = new (){new GptMessage(){Role = "system", Content = currentMode.SystemPrompt}};
                     return;
                 }
@@ -58,19 +58,18 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
                 if(systemPrompt != null)
                 {
                     // systemPromptのSystemPromptを返す
-                    var switchedMessage = $"会話履歴をリセットして、**{systemPrompt.DisplayName}**モードに設定しました。\n\nこのモードでできること：{systemPrompt.Description}";
+                    var switchedMessage = $"会話履歴をクリアして、**{systemPrompt.DisplayName}**モードに設定しました。\n\nこのモードでできること：{systemPrompt.Description}";
                     await turnContext.SendActivityAsync(MessageFactory.Text(switchedMessage, switchedMessage), cancellationToken);
-                    conversationData.CurrentMode = systemPrompt.Id;
+                    conversationData.CurrentConfigId = systemPrompt.Id;
                     conversationData.Messages = new (){new GptMessage(){Role = "system", Content = systemPrompt.SystemPrompt}};
                     return;
                 }
                 else
                 {
                     // systemPromptのCommandが一致しない場合は、ユーザーに通知する
-                    string notFoundMessage = "指定されたモードが見つかりませんでした。";
+                    string notFoundMessage = "指定されたコマンドが見つかりませんでした。";
                     await turnContext.SendActivityAsync(MessageFactory.Text(notFoundMessage, notFoundMessage), cancellationToken);
                     return;
-
                 }
             }
         
@@ -79,6 +78,14 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
                 string userNameFronContext = turnContext.Activity.From.Name;
                 userProfile.Name = userNameFronContext;
             }
+
+            var currentConfing = _systemPrompts.FirstOrDefault(x => x.Id == (conversationData.CurrentConfigId != null ? conversationData.CurrentConfigId : "default"));
+
+            if (String.IsNullOrEmpty(conversationData.CurrentConfigId))
+            {
+                conversationData.Messages = new (){new GptMessage(){Role = "system", Content = currentConfing.SystemPrompt}};
+            }
+
             List<GptMessage> messages = new();
             if (conversationData.Messages?.Count > 0)
             {
@@ -87,16 +94,7 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
 
             messages.Add(new GptMessage(){Role = "user", Content = inputText});
 
-            ChatCompletions response;
-            if (conversationData.CurrentMode != null)
-            {
-                var currentMode = _systemPrompts.FirstOrDefault(x => x.Id == conversationData.CurrentMode);
-                response = await generateMessage(messages, currentMode.Temperature, currentMode.MaxTokens);
-            }
-            else
-            {
-                response = await generateMessage(messages);
-            }
+            ChatCompletions response = await generateMessage(messages, currentConfing.Temperature, currentConfing.MaxTokens);
 
             // TODO:APIのレスポンスがエラーの場合の処理を追加する
             var replyText =response.Choices[0].Message.Content;

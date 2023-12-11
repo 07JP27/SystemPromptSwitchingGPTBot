@@ -63,7 +63,9 @@ namespace _07JP27.SystemPromptSwitchingGPTBot
             // Create the SystemPromptCatalog
             var catalog = new List<IGptConfiguration>
             {
-                new Sample()
+                new Default(),
+                new Korosuke(),
+                new Doraemon()
             };
             services.AddSingleton(catalog);
 

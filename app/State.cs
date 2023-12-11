@@ -4,7 +4,7 @@ public class ConversationData
 {
     public string Timestamp { get; set; }
     public string ChannelId { get; set; }
-    public string CurrentMode { get; set; }
+    public string CurrentConfigId { get; set; }
 
     // 本来はOpenAIライブラリのChatRequestMessageのリストで持つと後々簡単だが、State管理でコンストラクタエラーが発生するので独自定義
     public List<GptMessage>  Messages { get; set; }
