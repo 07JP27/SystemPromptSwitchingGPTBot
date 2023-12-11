@@ -33,6 +33,8 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
         }
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            try
+            {
             var conversationStateAccessors = _conversationState.CreateProperty<ConversationData>(nameof(ConversationData));
             var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationData());
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
@@ -102,7 +104,7 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
             var replyText =response.Choices[0].Message.Content;
 
             var newActivity = MessageFactory.Text(replyText, replyText);
-            newActivity.Id = turnContext.Activity.ReplyToId;
+            newActivity.Id = turnContext.Activity.Id;
 
             // メッセージの更新はEmulator(Direct Line)では使えない
             // https://learn.microsoft.com/ja-jp/azure/bot-service/bot-service-channels-reference?view=azure-bot-service-4.0#activity-support-by-channel
@@ -113,6 +115,11 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
             conversationData.Timestamp = turnContext.Activity.Timestamp.ToString();
             conversationData.ChannelId = turnContext.Activity.ChannelId;
             conversationData.Messages = messages;
+            }
+            catch (Exception ex)
+            {
+                await turnContext.SendActivityAsync(MessageFactory.Text(ex.Message), cancellationToken);
+            }
         }
 
          public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
