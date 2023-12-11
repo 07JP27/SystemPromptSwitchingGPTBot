@@ -1,4 +1,4 @@
-﻿# EchoBot
+﻿# SystemPromptSwitchingGPTBot
 
 Bot Framework v4 echo bot sample.
 
@@ -35,7 +35,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `samples/csharp_dotnetcore/02.echo-bot` folder
-  - Select `EchoBot.csproj` file
+  - Select `SystemPromptSwitchingGPTBot.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
