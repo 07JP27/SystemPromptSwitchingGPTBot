@@ -1,0 +1,87 @@
+{
+	"$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+	"version": "1.0.0",
+	"manifestVersion": "1.16",
+	"id": "<Azure Botに紐付けられたMicrosoftAppIdのGUID>",
+	"packageName": "com.package.name",
+	"name": {
+		"short": "ChatJPT",
+		"full": ""
+	},
+	"developer": {
+		"name": "<開発者名>",
+		"mpnId": "",
+		"websiteUrl": "<WebサイトURL>",
+		"privacyUrl": "<プライバシーポリシーURL>",
+		"termsOfUseUrl": "<利用規約URL>"
+	},
+	"description": {
+		"short": "<ボット名>",
+		"full": "システムプロンプトを切り替えながら使用することができるChatGPT Teamsボットです。"
+	},
+	"icons": {
+		"outline": "outline.png",
+		"color": "color.png"
+	},
+	"accentColor": "#363636",
+	"staticTabs": [
+		{
+			"entityId": "conversations",
+			"scopes": [
+				"personal"
+			]
+		},
+		{
+			"entityId": "about",
+			"scopes": [
+				"personal"
+			]
+		}
+	],
+	"bots": [
+		{
+			"botId": "<Azure Botに紐付けられたMicrosoftAppIdのGUID>",
+			"scopes": [
+				"personal"
+			],
+			"commandLists": [
+				{
+					"commands": [
+						{
+							"title": "/korosuke",
+							"description": "コロ助のように喋ります"
+						},
+						{
+							"title": "/doraemon",
+							"description": "ドラえもんのように喋ります"
+						},
+						{
+							"title": "/default",
+							"description": "デフォルトのシステムプロンプト"
+						},
+						{
+							"title": "/clear",
+							"description": "会話履歴をクリアします"
+						},
+						{
+							"title": "/codereview",
+							"description": "コードをレビューします"
+						},
+						{
+							"title": "/translate",
+							"description": "入力された文章を翻訳します"
+						}
+					],
+					"scopes": [
+						"personal"
+					]
+				}
+			],
+			"isNotificationOnly": false,
+			"supportsCalling": false,
+			"supportsVideo": false,
+			"supportsFiles": false
+		}
+	],
+	"validDomains": []
+}

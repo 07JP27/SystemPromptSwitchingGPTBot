@@ -94,6 +94,7 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
 
             messages.Add(new GptMessage(){Role = "user", Content = inputText});
 
+            // TODO:会話履歴がトークン上限を超えないことを事前に確認して、超えるようなら直近n件のみ送るようにする
             ChatCompletions response = await generateMessage(messages, currentConfing.Temperature, currentConfing.MaxTokens);
 
             // TODO:APIのレスポンスがエラーの場合の処理を追加する
