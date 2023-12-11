@@ -4,9 +4,6 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - caht-jpt
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -22,6 +19,9 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
+      - name: Change directory to app
+        run: cd app
+        
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
