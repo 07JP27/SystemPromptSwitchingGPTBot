@@ -123,7 +123,7 @@ namespace _07JP27.SystemPromptSwitchingGPTBot.Bots
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    var welcomeText = member.Name + "さん、こんにちは。";
+                    var welcomeText = "こんにちは。";
                     await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
                 }
             }
