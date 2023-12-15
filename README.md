@@ -1,6 +1,7 @@
 # SystemPromptSwitchingGPTBot
 １つのボットでシステムプロンプトや各種パラメーターを切り替えながらChatGPTと対話できます。構想としてはGPTsを１つのボットの中で使うようなイメージです。
 Teamsを前提に開発していますが、Azure Botを使用しているためSlackやLINEなどの各種チャットサービスにも対応しているはずです。
+![](./assets/character.gif)
 
 ## セットアップ方法
 ### 前提条件
@@ -17,6 +18,10 @@ Teamsを前提に開発していますが、Azure Botを使用しているため
 ### Azure OpenAI Serviceのデプロイ
 1. Azure OpenAI Serviceをデプロイします。
 1. gpt-35-turboまたはgpt-4のいずれかをデプロイします。
+
+### システムプロンプト設定の改変
+[app/GptConfiguration/](https://github.com/07JP27/SystemPromptSwitchingGPTBot/tree/main/app/GptConfiguration)ディレクトリ配下に各種システムプロンプトの設定ファイルがあります。これらのファイルを編集することでシステムプロンプトの設定を変更できます。また、`IGptConfiguration`を実装したクラスを作成することで独自のシステムプロンプト設定を新規作成することもできます。
+![](./assets/classmap.png)
 
 ### ローカル実行
 1. 対象のAzure OpneAI Serviceのアクセス制御でローカル実行ユーザーにRBAC「Cognitive Services OpenAI User」ロールを付与します。**すでに共同作成者がついている場合でも必ず別途付与してください**
