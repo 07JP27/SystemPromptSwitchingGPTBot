@@ -61,7 +61,7 @@ Teamsを前提に開発していますが、Azure Botを使用しているため
     - MicrosoftAppPassword：Entra IDのアプリ登録で作成、メモしたクライアントシークレットの値
     - MicrosoftAppTenantId：Azure Botからメモしたアプリ テナントID
     - OpenAIEndpoint：Azure OpenAI Serviceのエンドポイント
-    - OpenAIDeployName：Azure OpenAI Serviceのデプロイ名
+    - OpenAIDeployment：Azure OpenAI Serviceのデプロイ名
 
 1. 「保存」をクリックしてアプリケーション設定を反映します。
 
